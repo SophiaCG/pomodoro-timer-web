@@ -7,18 +7,20 @@ class TimerCircle extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      startTime: Date.now(),
       counter: 0, // Initial value for the counter
-      totalValue: 2400, // Total value for the counter (60 seconds * 60)
+      totalValue: 60, // Total value for the counter (60 seconds * 60)
     };
   }
 
   componentDidMount() {
-    // Update the counter every second
+    // Update the counter every millisecond
     this.interval = setInterval(() => {
-      if (this.state.counter < this.state.totalValue) {
-        this.setState((prevState) => ({
-          counter: prevState.counter + 1,
-        }));
+      const elapsedTime = (Date.now() - this.state.startTime) / 1000;
+      if (elapsedTime <= this.state.totalValue) {
+        this.setState({
+          counter: elapsedTime,
+        });
       } else {
         // Timer completed, you can handle this event if needed
         clearInterval(this.interval);

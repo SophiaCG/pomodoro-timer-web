@@ -1,3 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+
+:root {
+  --secondaryColor: #eff1fa;
+  --arrowButtonColor: #c3c2c6;
+  --buttonColor: #f57272;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -8,16 +16,292 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: "Montserrat", sans-serif;
+}
+
+.App {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  display: block;
+  position: absolute;
+  z-index: 1;
+}
+
+.main-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+.popup-menu-container {
+  display: block;
+  position: absolute;
+  z-index: 2;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-menu {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  height: 380px;
+  width: 450px;
+  border-radius: 20px;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.close-button {
+  border: none;
+  background: none;
+}
+
+.fa-xmark {
+  font-size: 1.25rem;
+  color: grey;
+  cursor: pointer;
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px 0px 20px;
+  border-bottom: 1px solid var(--secondaryColor);
+}
+
+.popup-body {
+  padding: 0px 20px 0px 20px;
+}
+
+.popup-label {
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+hr {
+  border-color: var(--secondaryColor);
+}
+
+.popup-counters-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.counter-container {
+  background-color: var(--secondaryColor);
+  border-radius: 10px;
+  height: 50px;
+  width: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px 0px 20px;
+  flex: 1;
+}
+
+.counter-buttons-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.counter-label {
+  color: var(--arrowButtonColor);
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+.counter-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.fa-angle-down,
+.fa-angle-up {
+  color: var(--arrowButtonColor);
+}
+
+.popup-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.color-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fa-check {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: black;
+  background-color: lightblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.apply-button-container {
+  background-color: var(--buttonColor);
+  width: 110px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.apply-button {
+  border: none;
+  background: none;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+}
+
+.title {
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 /* TimerCircle */
 
-/* Additional styling as needed */
+.timer-container {
+  position: relative;
+}
+
 .pie-chart-container {
+  height: 550px;
+  width: 550px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 400px;
+  z-index: 1;
+}
+
+.canvasjs-chart-credit {
+  z-index: -1;
+}
+
+.pause-button,
+.play-button {
+  background: none;
+  border: none;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+}
+
+.fa-pause,
+.fa-play {
+  background: none;
+  border: none;
+  color: lightblue;
+  font-size: 7rem;
+}
+
+/* Segmented Controls */
+
+.selected-item {
+  text-align: center;
+}
+
+.controls-container {
+  --highlight-width: auto;
+  --highlight-x-pos: 0;
+
+  display: flex;
+}
+
+.controls {
+  display: inline-flex;
+  justify-content: space-between;
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 50px;
+  max-width: 600px;
+  padding: 5px 20px 5px 20px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.controls input {
+  opacity: 0;
+  margin: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  cursor: pointer;
+  height: 100%;
+}
+
+.segment {
+  /* width: 100%; */
+  min-width: 150px;
+  position: relative;
+  text-align: center;
+  z-index: 1;
+}
+
+.segment h4 {
+  cursor: pointer;
+  display: block;
+  color: gray;
+  transition: color 0.5s ease;
+}
+
+.segment.active h4 {
+  color: black;
+}
+
+.controls::before {
+  content: "";
+  background: #5465ff;
+  border-radius: 50px;
+  width: var(--highlight-width);
+  transform: translateX(var(--highlight-x-pos));
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 0;
+  z-index: 0;
+}
+
+/* Only allow transitions once component is ready */
+.controls.ready::before {
+  transition: transform 0.3s ease, width 0.3s ease;
+}
+
+.popup-button {
+  border: none; /* Remove the border */
+  background: none; /* Remove the background */
+  cursor: pointer;
+  font-size: 2rem;
+  color: gray;
 }

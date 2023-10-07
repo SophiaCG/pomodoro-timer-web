@@ -2,17 +2,19 @@ import { React, useRef, useState, useEffect } from "react";
 import TimerCircle from "./components/TimerCircle"; // Replace with the correct path to your PieChart component
 import SegmentedControls from "./components/SegmentedControls";
 import PopupMenu from "./components/PopupMenu";
+import { useTheme } from "./ThemeContext";
 
 function App() {
   const [selectedValue1, setSelectedValue1] = useState("complete");
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const { theme } = useTheme();
 
   const togglePopup = () => {
     setPopupVisible(!isPopupVisible);
   };
 
   return (
-    <div className="App">
+    <div className={`App ${theme}`}>
       <div className="container">
         <div className="main-page-container">
           <h1 className="title">pomodoro</h1>

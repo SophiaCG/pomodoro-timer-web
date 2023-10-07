@@ -1,107 +1,107 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import CanvasJSReact from "@canvasjs/react-charts";
+import { useTheme } from "../ThemeContext";
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-class TimerCircle extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      startTime: performance.now(),
-      counter: 0, // Initial value for the counter
-      totalValue: 60, // Total value for the counter (60 seconds)
-      paused: false, // Added paused state
-      elapsed: 0, // Elapsed time when paused
-    };
-  }
+function TimerCircle(props) {
+  const { theme } = useTheme();
+  const [state, setState] = useState({
+    startTime: performance.now(),
+    counter: 0,
+    totalValue: 10,
+    paused: false,
+    elapsed: 0,
+    timerCompleted: false,
+  });
 
-  componentDidMount() {
-    // Update the counter every millisecond if not paused
-    this.interval = setInterval(() => {
-      if (!this.state.paused) {
+  useEffect(() => {
+    // Your existing logic for component did mount
+    const interval = setInterval(() => {
+      if (!state.paused && !state.timerCompleted) {
         const currentTime = performance.now();
         const elapsedTime =
-          (currentTime - this.state.startTime - this.state.elapsed) / 1000;
-        if (elapsedTime <= this.state.totalValue) {
-          this.setState({
-            counter: elapsedTime + this.state.elapsed, // Include the elapsed time when unpausing
-          });
+          (currentTime - state.startTime - state.elapsed) / 1000;
+        if (elapsedTime <= state.totalValue) {
+          setState((prevState) => ({
+            ...prevState,
+            counter: elapsedTime + state.elapsed,
+          }));
         } else {
-          // Timer completed, set the counter to the total value
-          this.setState({
-            counter: this.state.totalValue,
-          });
-          clearInterval(this.interval);
+          clearInterval(interval);
+          handleTimerCompletionAction();
         }
       }
     }, 1);
-  }
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
+    return () => {
+      clearInterval(interval);
+    };
+  }, [state]);
 
-  // Function to pause the animation
-  pauseAnimation = () => {
+  const handleTimerCompletionAction = () => {
+    console.log("Timer has completed. Performing the action...");
+    setState((prevState) => ({
+      ...prevState,
+      paused: true,
+      timerCompleted: false,
+    }));
+  };
+
+  const pauseAnimation = () => {
     const currentTime = performance.now();
-    const elapsedTime = (currentTime - this.state.startTime) / 1000;
-    this.setState({
+    const elapsedTime = (currentTime - state.startTime) / 1000;
+    setState((prevState) => ({
+      ...prevState,
       paused: true,
       elapsed: elapsedTime,
-    });
+    }));
   };
 
-  // Function to continue the animation
-  continueAnimation = () => {
-    this.setState(
+  const continueAnimation = () => {
+    setState((prevState) => ({
+      ...prevState,
+      paused: false,
+      startTime: performance.now() - state.elapsed * 1000,
+    }));
+  };
+
+  const { counter, totalValue, paused } = state;
+  const options = {
+    animationEnabled: true,
+    exportEnabled: false,
+    data: [
       {
-        paused: false,
-        startTime: performance.now() - this.state.elapsed * 1000, // Update startTime to resume from elapsedTime
+        type: "pie",
+        indexLabel: null,
+        startAngle: -90,
+        toolTipContent: null,
+        highlightEnabled: false,
+        dataPoints: [
+          { y: counter, color: `${theme}` },
+          { y: totalValue - counter, color: "transparent" },
+        ],
       },
-      () => {
-        this.componentDidMount(); // Restart the timer with updated values
-      }
-    );
+    ],
   };
 
-  render() {
-    const { counter, totalValue, paused } = this.state;
-    const options = {
-      animationEnabled: true,
-      exportEnabled: false,
-      data: [
-        {
-          type: "pie",
-          indexLabel: null,
-          startAngle: -90,
-          toolTipContent: null,
-          highlightEnabled: false,
-          dataPoints: [
-            { y: counter, color: "blue" },
-            { y: totalValue - counter, color: "transparent" },
-          ],
-        },
-      ],
-    };
+  return (
+    <div className="timer-container">
+      {paused ? (
+        <button className="play-button" onClick={continueAnimation}>
+          <i className="fa-solid fa-play"></i>
+        </button>
+      ) : (
+        <button className="pause-button" onClick={pauseAnimation}>
+          <i className="fa-solid fa-pause"></i>
+        </button>
+      )}
 
-    return (
-      <div className="timer-container">
-        {paused ? (
-          <button className="play-button" onClick={this.continueAnimation}>
-            <i class="fa-solid fa-play"></i>
-          </button>
-        ) : (
-          <button className="pause-button" onClick={this.pauseAnimation}>
-            <i class="fa-solid fa-pause"></i>
-          </button>
-        )}
-
-        <div className="pie-chart-container">
-          <CanvasJSChart options={options} />
-        </div>
+      <div className="pie-chart-container">
+        <CanvasJSChart options={options} />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default TimerCircle;

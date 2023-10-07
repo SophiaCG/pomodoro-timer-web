@@ -1,11 +1,13 @@
 import { useRef, useState, useEffect } from "react";
 import Counter from "./Counter";
 import ColorButtons from "./ColorButtons";
+import { useTheme } from "../ThemeContext";
 
 const PopupMenu = ({ togglePopup }) => {
   const [pomodoroCount, setPomodoroCount] = useState(25);
   const [shortCount, setShortCount] = useState(5);
   const [longCount, setLongCount] = useState(15);
+  const { theme } = useTheme();
 
   const handleClose = () => {
     togglePopup();
@@ -52,7 +54,7 @@ const PopupMenu = ({ togglePopup }) => {
           </div>
         </div>
       </div>
-      <div className="apply-button-container">
+      <div className={`apply-button-container ${theme}`}>
         <button className="apply-button">Apply</button>
       </div>
     </div>

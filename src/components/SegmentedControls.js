@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { useTheme } from "../ThemeContext";
 
 const SegmentedControls = ({
   name,
@@ -15,6 +16,9 @@ const SegmentedControls = ({
     componentReady.current = true;
   }, []);
 
+  // Get the theme value using useTheme hook and store it in a variable
+  const { theme } = useTheme();
+
   useEffect(() => {
     const activeSegmentRef = segments[activeIndex].ref;
     const { offsetWidth, offsetLeft } = activeSegmentRef.current;
@@ -22,7 +26,7 @@ const SegmentedControls = ({
 
     style.setProperty("--highlight-width", `${offsetWidth}px`);
     style.setProperty("--highlight-x-pos", `${offsetLeft}px`);
-  }, [activeIndex, callback, controlRef, segments]);
+  }, [activeIndex, callback, controlRef, segments, theme]); // Include theme in the dependencies array
 
   const onInputChange = (value, index) => {
     setActiveIndex(index);
@@ -31,7 +35,11 @@ const SegmentedControls = ({
 
   return (
     <div className="controls-container" ref={controlRef}>
-      <div className={`controls ${componentReady.current ? "ready" : "idle"}`}>
+      <div
+        className={`controls ${
+          componentReady.current ? "ready" : "idle"
+        } ${theme}`}
+      >
         {segments?.map((item, i) => (
           <div
             key={item.value}

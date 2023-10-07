@@ -5,7 +5,6 @@ import { useTheme } from "../ThemeContext";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 function TimerCircle(props) {
-  const { theme } = useTheme();
   const [state, setState] = useState({
     startTime: performance.now(),
     counter: 0,
@@ -66,6 +65,7 @@ function TimerCircle(props) {
     }));
   };
 
+  const { theme, getColor } = useTheme();
   const { counter, totalValue, paused } = state;
   const options = {
     animationEnabled: true,
@@ -78,7 +78,7 @@ function TimerCircle(props) {
         toolTipContent: null,
         highlightEnabled: false,
         dataPoints: [
-          { y: counter, color: `${theme}` },
+          { y: counter, color: getColor(theme) },
           { y: totalValue - counter, color: "transparent" },
         ],
       },

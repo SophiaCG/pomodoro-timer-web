@@ -181,6 +181,10 @@ hr {
   cursor: pointer;
 }
 
+.fa-check.active {
+  color: white;
+}
+
 .apply-button-container {
   width: 110px;
   height: 40px;
